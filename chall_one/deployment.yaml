@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shell
+  labels:
+    app: shell
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shell
+  template:
+    metadata:
+      labels:
+        app: shell
+    spec:
+      containers:
+        - name: shell
+          image: docker.io/library/shell:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: true
+            privileged: true
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+              name: shell-port
+          resources:
+            requests:
+              cpu: 100m

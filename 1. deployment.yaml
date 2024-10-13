@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $name
+  labels:
+    app: $name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $name
+  template:
+    metadata:
+      labels:
+        app: $name
+    spec:
+      containers:
+        - name: $name
+          image: docker.io/library/$name:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: true
+            privileged: true
+          ports:
+            - containerPort: $cport
+              protocol: TCP
+              name: $name-port
+          resources:
+            requests:
+              cpu: 100m
